@@ -1,0 +1,119 @@
+<!-- templates/sentiment_analyzer.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h2 class="mb-0">🐦 Twitter Sentiment Analysis</h2>
+                <p class="mb-0">Analyze the sentiment of tweets for any keyword</p>
+            </div>
+            <div class="card-body p-4">
+                
+                <!-- Input Form -->
+                <form method="POST" action="/sentiment_logic">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="keyword" class="form-label">Keyword to Search:</label>
+                            <input type="text" class="form-control" id="keyword" name="keyword" 
+                                   placeholder="Enter keyword (e.g., Python, AI, etc.)" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tweets" class="form-label">Number of Tweets:</label>
+                            <input type="number" class="form-control" id="tweets" name="tweets" 
+                                   placeholder="Enter number (e.g., 100)" min="1" max="1000" required>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            🔍 Analyze Sentiment
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Error Display -->
+                {% if error %}
+                <div class="alert alert-danger mt-4" role="alert">
+                    <strong>Error:</strong> {{ error }}
+                </div>
+                {% endif %}
+
+                <!-- Results Section -->
+                {% if analysis_complete %}
+                <div class="result-card p-4 mt-4">
+                    <h3 class="text-center mb-4">📊 Analysis Results</h3>
+                    
+                    <div class="row text-center">
+                        <div class="col-md-6 mb-3">
+                            <h5>Keyword Analyzed:</h5>
+                            <p class="fs-4 fw-bold">{{ keyword }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5>Total Tweets:</h5>
+                            <p class="fs-4 fw-bold">{{ tweets }}</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h5>Overall Sentiment:</h5>
+                        <p class="fs-3 fw-bold
+                        {% if 'Positive' in htmlpolarity %}sentiment-positive
+                        {% elif 'Negative' in htmlpolarity %}sentiment-negative
+                        {% else %}sentiment-neutral{% endif %}">
+                            {{ htmlpolarity }}
+                        </p>
+                        <p>Polarity Score: {{ "%.3f"|format(polarity) }}</p>
+                    </div>
+
+                    <!-- Sentiment Breakdown -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Positive Sentiments:</h6>
+                            <ul class="list-unstyled">
+                                <li>💚 Strongly Positive: {{ spositive }}%</li>
+                                <li>🟢 Positive: {{ positive }}%</li>
+                                <li>🟠 Weakly Positive: {{ wpositive }}%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Negative Sentiments:</h6>
+                            <ul class="list-unstyled">
+                                <li>🔴 Strongly Negative: {{ snegative }}%</li>
+                                <li>🟥 Negative: {{ negative }}%</li>
+                                <li>🟨 Weakly Negative: {{ wnegative }}%</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p>⚪ Neutral: {{ neutral }}%</p>
+                    </div>
+
+                    <!-- Visualization Button -->
+                    <div class="text-center mt-4">
+                        <a href="/visualize" class="btn btn-light btn-lg">
+                            📈 View Visualization
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Instructions -->
+                <div class="mt-4">
+                    <h5>📝 Instructions:</h5>
+                    <ol>
+                        <li>Enter a keyword you want to analyze (e.g., "Python", "Climate Change", etc.)</li>
+                        <li>Specify how many tweets to analyze (recommended: 50-200)</li>
+                        <li>Click "Analyze Sentiment" to start the analysis</li>
+                        <li>View the results and sentiment breakdown</li>
+                        <li>Click "View Visualization" to see the pie chart</li>
+                    </ol>
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> You need to set up Twitter API credentials in the code to use this application.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+<!-- templates/piechart.html -->
+{% extends "base.html" %}
+
+{% block title %}Sentiment Visualization{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h2 class="mb-0">📊 Sentiment Analysis Visualization</h2>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <img src="{{ url_for('static', filename='images/plot1.png') }}" 
+                         alt="Sentiment Analysis Pie Chart" 
+                         class="img-fluid rounded shadow"
+                         style="max-width: 100%; height: auto;">
+                </div>
+                
+                <div class="mt-4">
+                    <a href="/sentiment_analyzer" class="btn btn-primary">
+                        ⬅️ Back to Analysis
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Chart Legend:</h5>
+                    <div class="row text-start">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><span style="color: darkgreen;">■</span> Strongly Positive (0.6 to 1.0)</li>
+                                <li><span style="color: yellowgreen;">■</span> Positive (0.3 to 0.6)</li>
+                                <li><span style="color: lightgreen;">■</span> Weakly Positive (0.0 to 0.3)</li>
+                                <li><span style="color: gold;">■</span> Neutral (0.0)</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><span style="color: lightsalmon;">■</span> Weakly Negative (0.0 to -0.3)</li>
+                                <li><span style="color: red;">■</span> Negative (-0.3 to -0.6)</li>
+                                <li><span style="color: darkred;">■</span> Strongly Negative (-0.6 to -1.0)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
